@@ -1,8 +1,19 @@
+import index from "./index.js"
+
 const ui = (() => {
 
     function pageContent(result) {
+        clearContent();
         createWeather(result);
         createTemp(result);
+    }
+
+    function clearContent() {
+        const weatherArea = document.querySelector(".weatherBox");
+        const tempArea = document.querySelector(".tempBox");
+
+        weatherArea.innerHTML = "";
+        tempArea.innerHTML = "";
     }
 
     function createWeather(result) {
@@ -19,7 +30,7 @@ const ui = (() => {
             const place = googleSearch.getPlaces()[0];
             if (place == null) return
             const selectedPlace = place.address_components[0].long_name;
-            console.log(selectedPlace);
+            index.searchInput(selectedPlace);
         });
 
         wStatus.textContent = result.weatherStatus;
