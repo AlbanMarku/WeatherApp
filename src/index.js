@@ -1,3 +1,6 @@
 import style from "./style.css"
+import weather from "./weather.js"
 
-console.log("hi");
+weather.getData().then((val)=>{
+    console.log(val)
+});
