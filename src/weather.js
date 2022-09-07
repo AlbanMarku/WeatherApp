@@ -21,6 +21,8 @@ const weather = (() => {
             tempMax: data.list[0].main.temp_max,
             feelsLike: data.list[0].main.feels_like,
             weatherStatus: data.list[0].weather[0].description,
+            humidity: data.list[0].main.humidity,
+            wind: data.list[0].wind.speed,
             icon: data.list[0].weather[0].icon,
             time: data.list[0].dt_txt
         }

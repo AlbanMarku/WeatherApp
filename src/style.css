@@ -37,9 +37,17 @@ main {
     grid-area: weather;
 }
 
+.weatherBox {
+    border: solid black;
+}
+
 .tempArea {
     border: solid purple;
     grid-area: temp;
+}
+
+.tempBox {
+    border: solid green;
 }
 
 .forecastArea {
