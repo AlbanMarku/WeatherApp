@@ -1,3 +1,53 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+html {
+    height: 100vh;
+    background-color: darkgrey;
+}
+
 body {
-    background-color: red;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    border: solid orange;
+    height: 100px;
+}
+
+main {
+    border: solid red;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr, 1fr;
+    grid-template-rows: 2fr 1fr;
+    grid-template-areas:
+    "weather temp"
+    "forecast forecast";
+}
+
+.weatherArea {
+    border: solid blue;
+    grid-area: weather;
+}
+
+.tempArea {
+    border: solid purple;
+    grid-area: temp;
+}
+
+.forecastArea {
+    border: solid black;
+    grid-area: forecast;
+}
+
+footer {
+    border: solid green;
+    height: 50px;
 }
