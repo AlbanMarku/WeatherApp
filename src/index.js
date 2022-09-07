@@ -1,6 +1,9 @@
 import style from "./style.css"
 import weather from "./weather.js"
+import ui from "./ui.js"
 
-weather.getData("Tirana").then((val)=>{
-    console.log(val.weatherStatus);
+document.addEventListener("DOMContentLoaded", () => {
+    weather.getData("tirana").then((result)=> {
+        ui.pageContent(result);
+    });
 });

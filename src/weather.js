@@ -20,7 +20,9 @@ const weather = (() => {
             tempMin: data.list[0].main.temp_min,
             tempMax: data.list[0].main.temp_max,
             feelsLike: data.list[0].main.feels_like,
-            weatherStatus: data.list[0].weather[0].description
+            weatherStatus: data.list[0].weather[0].description,
+            icon: data.list[0].weather[0].icon,
+            time: data.list[0].dt_txt
         }
         return theWeather
     }
