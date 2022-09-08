@@ -7,8 +7,8 @@ const weather = (() => {
             const processedData = await response.json();
             return convertData(processedData)
         } catch (error) {
-            alert(error);
-            return null
+            alert("where it at");
+            return getData("London")
           }
     }
 

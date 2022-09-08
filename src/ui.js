@@ -3,17 +3,17 @@ import index from "./index.js"
 const ui = (() => {
 
     function pageContent(result) {
-        clearContent();
         createWeather(result);
-        createTemp(result);
     }
 
     function clearContent() {
         const weatherArea = document.querySelector(".weatherBox");
         const tempArea = document.querySelector(".tempBox");
+        const weatherPic = document.querySelector(".weatherPic");
 
         weatherArea.innerHTML = "";
         tempArea.innerHTML = "";
+        weatherPic.innerHTML = "";
     }
 
     function createWeather(result) {
@@ -37,17 +37,27 @@ const ui = (() => {
         citName.textContent = result.cityName;
         conName.textContent = result.countryName;
         dateName.textContent = result.time;
-        img.src = `http://openweathermap.org/img/wn/${result.icon}@2x.png`;
 
         searchBar.type = "text";
-        searchBar.placeholder = "Enter location"
+        searchBar.placeholder = "Enter location";
 
-        weatherArea.appendChild(wStatus);
-        weatherArea.appendChild(citName);
-        weatherArea.appendChild(conName);
-        weatherArea.appendChild(dateName);
-        weatherArea.appendChild(img);
-        weatherArea.appendChild(searchBar);
+        fetch(`http://openweathermap.org/img/wn/${result.icon}@2x.png`).then((fetchedImage)=>{
+            img.src = fetchedImage.url;
+            clearContent();
+
+
+            weatherArea.appendChild(wStatus);
+            weatherArea.appendChild(citName);
+            weatherArea.appendChild(conName);
+            weatherArea.appendChild(dateName);
+            weatherArea.appendChild(img);//removing this stops the flicker
+            weatherArea.appendChild(searchBar);
+
+
+        }).catch(()=>{
+            console.log("no");
+            alert("no");
+        });
     }
 
     function createTemp(result) {

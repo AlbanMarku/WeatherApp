@@ -20,4 +20,4 @@ const index = (() => {
 
 export default index
 
-//TODO: courasel
+//TODO: courasel. Promise the image.
