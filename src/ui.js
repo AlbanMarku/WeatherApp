@@ -41,7 +41,7 @@ const ui = (() => {
         searchBar.type = "text";
         searchBar.placeholder = "Enter location";
 
-        fetch(`http://openweathermap.org/img/wn/${result.icon}@2x.png`).then((fetchedImage)=>{
+        fetch(`http://openweathermap.org/img/wn/${result.icon}@2x.png`,{ mode: "cors" }).then((fetchedImage)=>{
             img.src = fetchedImage.url;
             clearContent();
 
