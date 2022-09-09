@@ -2,30 +2,28 @@ import index from "./index.js"
 
 const ui = (() => {
 
-    function pageContent(result) {
-        createWeather(result);
+    async function pageContent(result) {
+        try {
+            const endpoint = `http://openweathermap.org/img/wn/${result.icon}@2x.png`;
+            const response = await fetch(endpoint,{mode:"cors"});
+            if (!response.ok) throw new Error(`image not found`);
+            createWeather(result, response.url);
+            createTemp(result);
+
+        } catch(error){
+            console.log(error);
+        }
     }
 
-    function clearContent() {
-        const weatherArea = document.querySelector(".weatherBox");
-        const tempArea = document.querySelector(".tempBox");
-        const weatherPic = document.querySelector(".weatherPic");
-
-        weatherArea.innerHTML = "";
-        tempArea.innerHTML = "";
-        weatherPic.innerHTML = "";
-    }
-
-    function createWeather(result) {
-        const weatherArea = document.querySelector(".weatherBox");
-        let wStatus = document.createElement("h1");
-        let citName = document.createElement("h2");
-        let conName = document.createElement("h3");
-        let dateName = document.createElement("p");
-        let img = document.createElement("img");
-        let searchBar = document.createElement("input");
+    function createWeather(result, icon){
+        let img = document.querySelector(".imger");
+        let wStatus = document.querySelector(".weatherStatus");
+        let citName = document.querySelector(".cityName");
+        let conName = document.querySelector(".countryName");
+        let dateName = document.querySelector(".dateName");
+        const searchBar = document.querySelector("#googler");
         const googleSearch = new google.maps.places.SearchBox(searchBar);
-
+        
         googleSearch.addListener("places_changed", () => {
             const place = googleSearch.getPlaces()[0];
             if (place == null) return
@@ -33,47 +31,30 @@ const ui = (() => {
             index.searchInput(selectedPlace);
         });
 
+        searchBar.addEventListener("click", () =>{
+            searchBar.value = "";
+        });
+
+        searchBar.placeholder = "Enter place name"
+
         wStatus.textContent = result.weatherStatus;
         citName.textContent = result.cityName;
         conName.textContent = result.countryName;
         dateName.textContent = result.time;
-
-        searchBar.type = "text";
-        searchBar.placeholder = "Enter location";
-
-        fetch(`http://openweathermap.org/img/wn/${result.icon}@2x.png`,{ mode: "cors" }).then((fetchedImage)=>{
-            img.src = fetchedImage.url;
-            clearContent();
-
-
-            weatherArea.appendChild(wStatus);
-            weatherArea.appendChild(citName);
-            weatherArea.appendChild(conName);
-            weatherArea.appendChild(dateName);
-            weatherArea.appendChild(img);//removing this stops the flicker
-            weatherArea.appendChild(searchBar);
-
-
-        }).catch(()=>{
-            console.log("no");
-            alert("no");
-        });
+        img.src = icon;
     }
 
     function createTemp(result) {
         const tempArea = document.querySelector(".tempBox");
-        let feelTemp = document.createElement("p");
-        let humid = document.createElement("p");
-        let speed = document.createElement("p");
+        let feelTemp = document.querySelector(".feelTemp");
+        let humid = document.querySelector(".humid");
+        let speed = document.querySelector(".speed");
 
         feelTemp.textContent = result.feelsLike;
         humid.textContent = result.humidity;
         speed.textContent = result.wind;
-
-        tempArea.appendChild(feelTemp);
-        tempArea.appendChild(humid);
-        tempArea.appendChild(speed);
     }
+
     return {pageContent}
 })();
 
