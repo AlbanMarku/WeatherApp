@@ -55,11 +55,16 @@ const ui = (() => {
         speed.textContent = result.wind;
     }
 
-    function createForecast(forecastList) {//creates forecast area.
+    async function createForecast(forecastList) {//creates forecast area.
         let starterPoint = 0;
         let endPoint = 7;
+        const listArea = document.querySelector(".listArea");
 
-        gridTemp(starterPoint, endPoint, forecastList);
+        gridTemp(starterPoint, endPoint, forecastList).then((result) => {
+            listArea.innerHTML = "";
+            listArea.appendChild(result);
+        });
+
 
         const nextBut = document.getElementById("next");
         nextBut.addEventListener("click", ()=>{
@@ -70,7 +75,10 @@ const ui = (() => {
                     endPoint = forecastList.length;
                     starterPoint = endPoint - 7;
                 }
-                gridTemp(starterPoint, endPoint, forecastList);
+                gridTemp(starterPoint, endPoint, forecastList).then((result) => {
+                    listArea.innerHTML = "";
+                    listArea.appendChild(result);
+                });
             }
         });
         
@@ -83,34 +91,36 @@ const ui = (() => {
                     endPoint = 7;
                     starterPoint = 0;
                 }
-                gridTemp(starterPoint, endPoint, forecastList);
+                gridTemp(starterPoint, endPoint, forecastList).then((result) => {
+                    listArea.innerHTML = "";
+                    listArea.appendChild(result);
+                });
             }
         })
     }
 
     async function gridTemp(starterPoint, endPoint , forecastList) {//creates an item "card" for each forecast data.
-        const listArea = document.querySelector(".list");
-        listArea.innerHTML = "";//This is causing it to flicker I think by the page going blank for a sec. I had this issue for other ui elements with pictures but I solved this with hardcoding the elements in html. Can't do that for this though.
+        const list = document.createElement("ul");
+        list.innerHTML = "";
         for (let i = starterPoint; i < endPoint; i++) {
             const item = document.createElement("li");
             item.classList.add("item");
             const text = document.createElement("p");
             text.textContent = forecastList[i].main.temp + " temp";
             const img = document.createElement("img");
-            try {//Am I using this async try catch correctly?
-                const endpoint = `http://openweathermap.org/img/wn/${forecastList[i].weather[0].icon}@2x.png`
+            try {
+                const endpoint = `http://openweathermap.org/img/wn/${forecastList[i].weather[0].icon}@2x.png`;
                 const response = await fetch(endpoint,{mode:"cors"});
-                console.log(response);
                 if (!response.ok) throw new Error(`image not found`);
                 img.src = response.url;
-                listArea.appendChild(item);
+                list.appendChild(item);
                 item.appendChild(text);
                 item.appendChild(img);
             } catch (error) {
                 alert(error);
             }
-
         }
+        return list
     }
 
     return {pageContent}
