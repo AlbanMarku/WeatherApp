@@ -25,7 +25,7 @@ main {
     border: solid red;
     height: 100%;
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 2fr 1fr;
     grid-template-areas:
     "weather temp"
@@ -36,12 +36,25 @@ main {
     border: solid blue;
     grid-area: weather;
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
+
 }
 
 .weatherBox {
-
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     border: solid black;
+    padding: 50px;
+    text-align: left;
+}
+
+.weatherArea h1 {
+    font-size: 3rem;
+}
+
+.weatherBox img {
+    width: 100px;
 }
 
 .tempArea {
@@ -54,8 +67,33 @@ main {
 }
 
 .forecastArea {
+    display: flex;
     border: solid black;
     grid-area: forecast;
+    background-color: yellow;
+    flex-direction: column;
+}
+
+.listArea {
+    background-color: green;
+    flex: 3;
+}
+
+.buttonArea {
+    background-color: pink;
+    flex: 1;
+}
+
+.list {
+    display: grid;
+    list-style-type: none;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: blueviolet;
+    height: 100%;
+}
+
+li {
+    border: solid black;
 }
 
 footer {

@@ -5,11 +5,23 @@ const weather = (() => {
             const response = await fetch(endpoint,{ mode: "cors" });
             if (!response.ok) throw new Error(`City ${city} not found`);
             const processedData = await response.json();
-            return convertData(processedData)
+            const dataObj = {
+                todayForecast: convertData(processedData),
+                allForecast: convertForecastData(processedData)
+            }
+            return dataObj
         } catch (error) {
             alert("where it at");
             return getData("London")
           }
+    }
+
+    function convertForecastData(data) {
+        let listOfWeather = [];
+        for (let i = 0; i < data.list.length; i++) {
+            listOfWeather.push(data.list[i]);
+        }
+        return listOfWeather
     }
 
     function convertData(data) {
