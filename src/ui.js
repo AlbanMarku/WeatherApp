@@ -2,7 +2,7 @@ import index from "./index.js"
 
 const ui = (() => {
 
-    async function pageContent(result) {
+    async function pageContent(result) {//load all page sections
         try {
             const endpoint = `http://openweathermap.org/img/wn/${result.todayForecast.icon}@2x.png`;
             const response = await fetch(endpoint,{mode:"cors"});
@@ -11,11 +11,12 @@ const ui = (() => {
             createTemp(result.todayForecast);
             createForecast(result.allForecast);
         } catch(error){
+            alert(error);
             console.log("no image" + error);
         }
     }
 
-    function createWeather(result, icon){
+    function createWeather(result, icon){//creates left side weather stats and ui.
         let img = document.querySelector(".imger");
         let wStatus = document.querySelector(".weatherStatus");
         let citName = document.querySelector(".cityName");
@@ -44,7 +45,7 @@ const ui = (() => {
         img.src = icon;
     }
 
-    function createTemp(result) {
+    function createTemp(result) { //creates right side stats.
         let feelTemp = document.querySelector(".feelTemp");
         let humid = document.querySelector(".humid");
         let speed = document.querySelector(".speed");
@@ -54,7 +55,7 @@ const ui = (() => {
         speed.textContent = result.wind;
     }
 
-    function createForecast(forecastList) {
+    function createForecast(forecastList) {//creates forecast area.
         let starterPoint = 0;
         let endPoint = 7;
 
@@ -87,16 +88,28 @@ const ui = (() => {
         })
     }
 
-    function gridTemp(starterPoint, endPoint , forecastList) {
+    async function gridTemp(starterPoint, endPoint , forecastList) {//creates an item "card" for each forecast data.
         const listArea = document.querySelector(".list");
-        listArea.innerHTML = ""; 
+        listArea.innerHTML = "";//This is causing it to flicker I think by the page going blank for a sec. I had this issue for other ui elements with pictures but I solved this with hardcoding the elements in html. Can't do that for this though.
         for (let i = starterPoint; i < endPoint; i++) {
             const item = document.createElement("li");
             item.classList.add("item");
             const text = document.createElement("p");
             text.textContent = forecastList[i].main.temp + " temp";
-            listArea.appendChild(item);
-            item.appendChild(text);
+            const img = document.createElement("img");
+            try {//Am I using this async try catch correctly?
+                const endpoint = `http://openweathermap.org/img/wn/${forecastList[i].weather[0].icon}@2x.png`
+                const response = await fetch(endpoint,{mode:"cors"});
+                console.log(response);
+                if (!response.ok) throw new Error(`image not found`);
+                img.src = response.url;
+                listArea.appendChild(item);
+                item.appendChild(text);
+                item.appendChild(img);
+            } catch (error) {
+                alert(error);
+            }
+
         }
     }
 
