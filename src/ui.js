@@ -58,19 +58,13 @@ const ui = (() => {
         speed.textContent = result.wind;
     }
 
-    function createForecast(forecastList) {//creates forecast area.
+    function buttonStuff(forecastList) {
         let starterPoint = 0;
         let endPoint = 7;
         const listArea = document.querySelector(".listArea");
-
-        gridTemp(starterPoint, endPoint, forecastList).then((result) => {
-            listArea.innerHTML = "";
-            listArea.appendChild(result);
-        });
-
-
         const nextBut = document.getElementById("next");
         nextBut.addEventListener("click", ()=>{
+            console.log("hit");
             if (endPoint < forecastList.length) {
                 starterPoint = starterPoint + 7;
                 endPoint = endPoint + 7;
@@ -84,7 +78,7 @@ const ui = (() => {
                 });
             }
         });
-        
+
         const prevBut = document.getElementById("prev");
         prevBut.addEventListener("click", () => {
             if (starterPoint > 0) {
@@ -100,6 +94,24 @@ const ui = (() => {
                 });
             }
         });
+    }
+
+    function noop() {
+        //deasign buts;
+    }
+
+    function createForecast(forecastList) {//creates forecast area.
+        const listArea = document.querySelector(".listArea");
+
+        gridTemp(0, 7, forecastList).then((result) => {
+            listArea.innerHTML = "";
+            listArea.appendChild(result);
+        });
+
+        buttonStuff(forecastList);
+        buttonStuff = noop;
+        
+
     }
 
     async function gridTemp(starterPoint, endPoint , forecastList) {//creates an item "card" for each forecast data.
