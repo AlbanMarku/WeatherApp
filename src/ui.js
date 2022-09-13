@@ -32,9 +32,7 @@ const ui = (() => {
             index.searchInput(selectedPlace);
         });
 
-        searchBar.addEventListener("click", () =>{
-            searchBar.value = "";
-        });
+        searchBar.addEventListener("click", handleSearch);
 
         searchBar.placeholder = "Enter place name"
 
@@ -43,6 +41,11 @@ const ui = (() => {
         conName.textContent = result.countryName;
         dateName.textContent = result.time;
         img.src = icon;
+    }
+
+    function handleSearch(e) {
+        const searchBar = e.target;
+        searchBar.value = "";
     }
 
     function createTemp(result) { //creates right side stats.
@@ -55,7 +58,7 @@ const ui = (() => {
         speed.textContent = result.wind;
     }
 
-    async function createForecast(forecastList) {//creates forecast area.
+    function createForecast(forecastList) {//creates forecast area.
         let starterPoint = 0;
         let endPoint = 7;
         const listArea = document.querySelector(".listArea");
@@ -96,7 +99,7 @@ const ui = (() => {
                     listArea.appendChild(result);
                 });
             }
-        })
+        });
     }
 
     async function gridTemp(starterPoint, endPoint , forecastList) {//creates an item "card" for each forecast data.
