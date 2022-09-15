@@ -62,13 +62,13 @@ const ui = (() => {
         let feelImg = document.querySelector(".feelImg");
         
         humidImg.src = humidSvg;
-        humid.textContent = result.humidity;
+        humid.textContent = "Humidity "+result.humidity + " \u{00B0}C";
 
         windImg.src = windSvg;
-        speed.textContent = result.wind;
+        speed.textContent = "Wind " + result.wind + " \u{00B0}C";
 
         feelImg.src = feelSvg;
-        feelTemp.textContent = result.feelsLike;
+        feelTemp.textContent = "Feels like "+result.feelsLike + " \u{00B0}C";
     }
 
     function buttonStuff(forecastList) {
@@ -76,7 +76,7 @@ const ui = (() => {
         let endPoint = 7;
         const listArea = document.querySelector(".listArea");
         const nextBut = document.getElementById("next");
-        nextBut.addEventListener("click", ()=>{
+        nextBut.addEventListener("click", ()=> {
             console.log("hit");
             if (endPoint < forecastList.length) {
                 starterPoint = starterPoint + 7;
@@ -134,7 +134,7 @@ const ui = (() => {
             item.classList.add("item");
             const text = document.createElement("p");
             const dateText = document.createElement("p");
-            text.textContent = forecastList[i].main.temp + " temp";
+            text.textContent = forecastList[i].main.temp + " \u{00B0}C";
             const d = new Date(forecastList[i].dt_txt);
             dateText.textContent = weekday[d.getDay()];
             const img = document.createElement("img");
