@@ -110,18 +110,20 @@ const ui = (() => {
 
         buttonStuff(forecastList);
         buttonStuff = noop;
-        
-
     }
 
     async function gridTemp(starterPoint, endPoint , forecastList) {//creates an item "card" for each forecast data.
         const list = document.createElement("ul");
         list.innerHTML = "";
+        const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
         for (let i = starterPoint; i < endPoint; i++) {
             const item = document.createElement("li");
             item.classList.add("item");
             const text = document.createElement("p");
+            const dateText = document.createElement("p");
             text.textContent = forecastList[i].main.temp + " temp";
+            const d = new Date(forecastList[i].dt_txt);
+            dateText.textContent = weekday[d.getDay()];
             const img = document.createElement("img");
             try {
                 const endpoint = `http://openweathermap.org/img/wn/${forecastList[i].weather[0].icon}@2x.png`;
@@ -129,6 +131,7 @@ const ui = (() => {
                 if (!response.ok) throw new Error(`image not found`);
                 img.src = response.url;
                 list.appendChild(item);
+                item.appendChild(dateText);
                 item.appendChild(text);
                 item.appendChild(img);
             } catch (error) {
