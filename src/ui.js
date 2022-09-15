@@ -1,4 +1,7 @@
 import index from "./index.js"
+import humidSvg from "./humid.svg"
+import windSvg from "./wind.svg"
+import feelSvg from "./feelsLike.svg"
 
 const ui = (() => {
 
@@ -49,13 +52,23 @@ const ui = (() => {
     }
 
     function createTemp(result) { //creates right side stats.
-        let feelTemp = document.querySelector(".feelTemp");
-        let humid = document.querySelector(".humid");
-        let speed = document.querySelector(".speed");
 
-        feelTemp.textContent = result.feelsLike;
+        let feelTemp = document.querySelector(".feel");
+        let humid = document.querySelector(".humid");
+        let speed = document.querySelector(".wind");
+
+        let humidImg = document.querySelector(".humidImg");
+        let windImg = document.querySelector(".windImg");
+        let feelImg = document.querySelector(".feelImg");
+        
+        humidImg.src = humidSvg;
         humid.textContent = result.humidity;
+
+        windImg.src = windSvg;
         speed.textContent = result.wind;
+
+        feelImg.src = feelSvg;
+        feelTemp.textContent = result.feelsLike;
     }
 
     function buttonStuff(forecastList) {

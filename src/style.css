@@ -66,6 +66,10 @@ main {
     border: solid green;
 }
 
+.tempBox img {
+    width: 50px;
+}
+
 .forecastArea {
     display: flex;
     border: solid black;
